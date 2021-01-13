@@ -8,6 +8,13 @@ const app = express()
 app.use(express.json())
 app.use(routes)
 
+// notFound
+
+app.use((req, res, next) => {
+    const error = new Error('notfound')
+    error.status = 404
+    next(error)
+})
 
 // catch all
 
