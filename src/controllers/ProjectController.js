@@ -12,16 +12,19 @@ module.exports = {
          .limit(5)
          .offset((page - 1) * 5)
 
+         const countObj =  knex('project').count()
+
          if(user_id){
             query
             .where({user_id})
             .join('users','users.id','=','project.user_id')
             .select('project.*', 'users.username')
+            
+            countObj
+            .where({user_id})
 
          }
-         const [count] = await knex('project').count()
-         console.log(count)
-
+         const [count] = await countObj
          res.header('X-Total-Count',count["count"])
 
          const results = await query
